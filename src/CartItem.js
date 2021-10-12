@@ -18,10 +18,12 @@ class CartItem extends React.Component {
     });
   };
   handleMinusClick = () => {
-    this.setState({
-      qty: this.state.qty - 1,
-      price: this.state.price - this.state.initialPrice,
-    });
+    if (this.state.qty > 0) {
+      this.setState({
+        qty: this.state.qty - 1,
+        price: this.state.price - this.state.initialPrice,
+      });
+    }
   };
   render() {
     const { title, price, qty } = this.state;
