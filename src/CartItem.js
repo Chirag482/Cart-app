@@ -18,7 +18,9 @@ function CartItem(props) {
           <button onClick={() => props.handleMinusClick(props.values)}>
             minus
           </button>
-          <button>delete</button>
+          <button onClick={() => props.handleDelete(props.values)}>
+            delete
+          </button>
         </div>
       </div>
     </div>

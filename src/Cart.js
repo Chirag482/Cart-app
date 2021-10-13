@@ -52,6 +52,15 @@ export class Cart extends Component {
       products: products,
     });
   };
+  handleDelete = (product) => {
+    const { products } = this.state;
+
+    const items = products.filter((item) => item.title !== product.title);
+
+    this.setState({
+      products: items,
+    });
+  };
   render() {
     const { products } = this.state;
     return (
@@ -62,6 +71,7 @@ export class Cart extends Component {
             key={index}
             handleMinusClick={this.handleMinusClick}
             handlePlusClick={this.handlePlusClick}
+            handleDelete={this.handleDelete}
           />
         ))}
       </div>
