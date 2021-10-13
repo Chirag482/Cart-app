@@ -9,11 +9,16 @@ body {
 
 .cart-item {
   display: inline-flex;
-  margin: 0 30px;
+  margin: 20px 30px;
 }
 .right-block {
   padding: 0 40px;
 }
 .cart-item-actions {
   margin-top: 20px;
+}
+
+.cart {
+  display: flex;
+  flex-direction: column;
 }

@@ -1,56 +1,29 @@
 import React from "react";
 
-class CartItem extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: "Phone",
-      price: 999,
-      qty: 1,
-      initialPrice: 999,
-    };
-  }
-  handlePlusClick = () => {
-    this.setState({
-      qty: this.state.qty + 1,
-      price: this.state.initialPrice + this.state.price,
-    });
-  };
-  handleMinusClick = () => {
-    if (this.state.qty > 0) {
-      this.setState({
-        qty: this.state.qty - 1,
-        price: this.state.price - this.state.initialPrice,
-      });
-    }
-  };
-  render() {
-    const { title, price, qty } = this.state;
-    return (
-      <div className="cart-item">
-        <div className="left-block">
-          <img
-            src="https://images.unsplash.com/photo-1575695342320-d2d2d2f9b73f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c21hcnQlMjBwaG9uZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80"
-            alt="img"
-            style={styles.images}
-          />
-        </div>
-        <div className="right-block">
-          <div style={styles.title}>{title}</div>
-          <div style={styles.details}>Rs {price}</div>
-          <div style={styles.details}>Qty:{qty}</div>
-          <div className="cart-item-actions">
-            <button onClick={this.handlePlusClick}>plus</button>
-            <button onClick={this.handleMinusClick}>minus</button>
-            <button>delete</button>
-          </div>
+function CartItem(props) {
+  const { title, price, qty, url } = props.values;
+  return (
+    <div className="cart-item">
+      <div className="left-block">
+        <img src={url} alt="img" style={styles.images} />
+      </div>
+      <div className="right-block">
+        <div style={styles.title}>{title}</div>
+        <div style={styles.details}>Rs {price}</div>
+        <div style={styles.details}>Qty:{qty}</div>
+        <div className="cart-item-actions">
+          <button onClick={() => props.handlePlusClick(props.values)}>
+            plus
+          </button>
+          <button onClick={() => props.handleMinusClick(props.values)}>
+            minus
+          </button>
+          <button>delete</button>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
 const styles = {
   images: {
     height: 110,
