@@ -64,9 +64,11 @@ export class Cart extends Component {
   };
   render() {
     const { products } = this.state;
+    var count = 0;
+    products.map((item) => (count += item.qty));
     return (
       <React.Fragment>
-        <Navbar />
+        <Navbar count={count} />
         <div className="cart">
           {products.map((item, index) => (
             <CartItem
