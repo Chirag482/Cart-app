@@ -36,3 +36,10 @@ body {
   top: -10px;
   left: 2px;
 }
+.footer {
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}

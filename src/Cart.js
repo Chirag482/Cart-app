@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CartItem from "./CartItem";
 import Navbar from "./Navbar";
+import Total from "./Total";
 export class Cart extends Component {
   constructor(props) {
     super(props);
@@ -65,7 +66,11 @@ export class Cart extends Component {
   render() {
     const { products } = this.state;
     var count = 0;
-    products.map((item) => (count += item.qty));
+    var total = 0;
+    products.map((item) => {
+      count += item.qty;
+      total += item.price;
+    });
     return (
       <React.Fragment>
         <Navbar count={count} />
@@ -80,6 +85,7 @@ export class Cart extends Component {
             />
           ))}
         </div>
+        <Total total={total} />
       </React.Fragment>
     );
   }
