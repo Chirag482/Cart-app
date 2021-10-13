@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CartItem from "./CartItem";
+import Navbar from "./Navbar";
 export class Cart extends Component {
   constructor(props) {
     super(props);
@@ -64,17 +65,20 @@ export class Cart extends Component {
   render() {
     const { products } = this.state;
     return (
-      <div className="cart">
-        {products.map((item, index) => (
-          <CartItem
-            values={item}
-            key={index}
-            handleMinusClick={this.handleMinusClick}
-            handlePlusClick={this.handlePlusClick}
-            handleDelete={this.handleDelete}
-          />
-        ))}
-      </div>
+      <React.Fragment>
+        <Navbar />
+        <div className="cart">
+          {products.map((item, index) => (
+            <CartItem
+              values={item}
+              key={index}
+              handleMinusClick={this.handleMinusClick}
+              handlePlusClick={this.handlePlusClick}
+              handleDelete={this.handleDelete}
+            />
+          ))}
+        </div>
+      </React.Fragment>
     );
   }
 }
