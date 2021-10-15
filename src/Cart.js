@@ -2,42 +2,40 @@ import React, { Component } from "react";
 import CartItem from "./CartItem";
 import Navbar from "./Navbar";
 import Total from "./Total";
+
+import * as firebase from "firebase";
+
 export class Cart extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      products: [
-        {
-          title: "Phone",
-          price: 999,
-          qty: 1,
-          initialPrice: 999,
-          url: "https://images.unsplash.com/photo-1575695342320-d2d2d2f9b73f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c21hcnQlMjBwaG9uZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-        },
-        {
-          title: "Laptop",
-          price: 47999,
-          qty: 1,
-          initialPrice: 47999,
-          url: "https://m.media-amazon.com/images/I/81Ne5qKmE8L._SL1500_.jpg",
-        },
-        {
-          title: "Headphones",
-          price: 3499,
-          qty: 1,
-          initialPrice: 3499,
-          url: "https://m.media-amazon.com/images/I/811u6QEwQxL._AC_SX355_.jpg",
-        },
-      ],
+      products: [],
+      loading: true,
     };
   }
+
+  componentDidMount() {
+    firebase
+      .firestore()
+      .collection("products")
+      .onSnapshot((snapshot) => {
+        const products = snapshot.docs.map((doc) => {
+          return doc.data();
+        });
+        this.setState({
+          products: products,
+          loading: false,
+        });
+      });
+  }
+
   handlePlusClick = (product) => {
     const { products } = this.state;
     const index = products.indexOf(product);
 
     products[index].qty += 1;
-    products[index].price += products[index].initialPrice;
+    products[index].price = products[index].qty * products[index].initialPrice;
     this.setState({
       products: products,
     });
@@ -64,7 +62,7 @@ export class Cart extends Component {
     });
   };
   render() {
-    const { products } = this.state;
+    const { products, loading } = this.state;
     var count = 0;
     var total = 0;
     products.map((item) => {
@@ -74,6 +72,7 @@ export class Cart extends Component {
     return (
       <React.Fragment>
         <Navbar count={count} />
+        {loading && <h1>Loading data...</h1>}
         <div className="cart">
           {products.map((item, index) => (
             <CartItem
