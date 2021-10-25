@@ -21,7 +21,9 @@ export class Cart extends Component {
       .collection("products")
       .onSnapshot((snapshot) => {
         const products = snapshot.docs.map((doc) => {
-          return doc.data();
+          const data = doc.data();
+          data["id"] = doc.id;
+          return data;
         });
         this.setState({
           products: products,
@@ -34,11 +36,17 @@ export class Cart extends Component {
     const { products } = this.state;
     const index = products.indexOf(product);
 
-    products[index].qty += 1;
-    products[index].price = products[index].qty * products[index].initialPrice;
-    this.setState({
-      products: products,
-    });
+    const docRef = firebase
+      .firestore()
+      .collection("products")
+      .doc(products[index].id);
+
+    docRef
+      .update({
+        qty: products[index].qty + 1,
+        price: products[index].price + products[index].initialPrice,
+      })
+      .catch((err) => console.log("error-> ", err));
   };
   handleMinusClick = (product) => {
     const { products } = this.state;
@@ -46,19 +54,28 @@ export class Cart extends Component {
     if (products[index].qty <= 0) {
       return;
     }
-    products[index].qty -= 1;
-    products[index].price -= products[index].initialPrice;
-    this.setState({
-      products: products,
-    });
+    const docRef = firebase
+      .firestore()
+      .collection("products")
+      .doc(products[index].id);
+
+    docRef
+      .update({
+        qty: products[index].qty - 1,
+        price: products[index].price - products[index].initialPrice,
+      })
+      .catch((err) => console.log("error-> ", err));
   };
   handleDelete = (product) => {
     const { products } = this.state;
+    const index = products.indexOf(product);
+    const docRef = firebase
+      .firestore()
+      .collection("products")
+      .doc(products[index].id);
 
-    const items = products.filter((item) => item.title !== product.title);
-
-    this.setState({
-      products: items,
+    docRef.delete().catch((err) => {
+      console.log(err);
     });
   };
   render() {

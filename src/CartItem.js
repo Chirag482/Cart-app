@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./index.css";
 function CartItem(props) {
   const { title, price, qty, url } = props.values;
   return (
@@ -13,13 +13,13 @@ function CartItem(props) {
         <div style={styles.details}>Qty:{qty}</div>
         <div className="cart-item-actions">
           <button onClick={() => props.handlePlusClick(props.values)}>
-            plus
+            <i class="fas fa-plus-circle"></i>
           </button>
           <button onClick={() => props.handleMinusClick(props.values)}>
-            minus
+            <i class="fas fa-minus-circle"></i>
           </button>
           <button onClick={() => props.handleDelete(props.values)}>
-            delete
+            <i class="fas fa-trash"></i>
           </button>
         </div>
       </div>
